@@ -1,18 +1,15 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
+import { BREAKPOINTS, COLORS, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
-
-  // For our mobile hamburger menu, we'll want to use a button
-  // with an onClick handler, something like this:
-  //
-  // <button onClick={() => setShowMobileMenu(true)}>
 
   return (
     <header>
@@ -21,15 +18,24 @@ const Header = () => {
         <Side>
           <Logo />
         </Side>
-        <Nav>
+
+        <DesktopNav>
           <NavLink href="/sale">Sale</NavLink>
           <NavLink href="/new">New&nbsp;Releases</NavLink>
           <NavLink href="/men">Men</NavLink>
           <NavLink href="/women">Women</NavLink>
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Side />
+        </DesktopNav>
+        <Side>
+          <MobileActionsWrapper>
+            <Icon id="shopping-bag" />
+            <Icon id="search" />
+            <UnstyledButton onClick={() => setShowMobileMenu(true)}>
+              <Icon id="menu" />
+            </UnstyledButton>
+          </MobileActionsWrapper>
+        </Side>
       </MainHeader>
 
       <MobileMenu
@@ -48,8 +54,11 @@ const MainHeader = styled.div`
   border-bottom: 1px solid ${COLORS.gray[300]};
 `;
 
-const Nav = styled.nav`
-  display: flex;
+const DesktopNav = styled.nav`
+  display: none;
+  @media (min-width: ${BREAKPOINTS.desktop}) {
+    display: flex;
+  }
   gap: 48px;
   margin: 0px 48px;
 `;
@@ -67,6 +76,16 @@ const NavLink = styled.a`
 
   &:first-of-type {
     color: ${COLORS.secondary};
+  }
+`;
+
+const MobileActionsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 32px;
+
+  @media (min-width: ${BREAKPOINTS.desktop}) {
+    display: none;
   }
 `;
 
